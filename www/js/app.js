@@ -68,6 +68,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+    .state('app.categoriaprod', {
+      url: '/categoriaprod',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/categoriaprod.html',
+          controller: 'ProductCtrl'
+        }
+      }
+    })
+
   .state('app.cadastro', {
         url: '/cadastro',
         views: {
@@ -79,14 +89,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       })
 
       .state('app.login', {
-            url: '/login',
-            views: {
-              'menuContent': {
-                templateUrl: 'templates/login.html',
-                controller:'UserCtrl'
-              }
-            }
-          })
+        url: '/login',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/login.html',
+            controller:'UserCtrl'
+          }
+        }
+      })
 
   .state('app.single', {
     url: '/playlists/:playlistId',

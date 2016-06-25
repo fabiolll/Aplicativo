@@ -55,12 +55,20 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 
+.controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {
+  $scope.categories = function(){
+    return ProductService.GetCategories();
+  }
+
+})
+
 .controller('UserCtrl', function($scope, UserService, $ionicPopup, $state){
   $scope.user = {};
 
   $scope.login = function() {
     UserService.LoginUser($scope.user).success(function(data) {
       console.log("Deu Bom Login");
+      console.log(data);
     }).error(function(data) {
       var alertPopup = $ionicPopup.alert({
         title: 'Login falhou!',

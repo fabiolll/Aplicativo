@@ -1,0 +1,19 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <!-- SEARCH -->
+  	<div class="list list-inset">
+    		<label class="item item-input">
+      		<i class="icon ion-search placeholder-icon"></i>
+      		<input type="text" placeholder="Search">
+    		</label>
+  	</div>
+    <ion-list>
+      <ion-item ng-repeat="categoria in categories()">
+        <div class="row" id="categoriasproduto">
+      		<div class="col col-10"><button><i class="icon ion-trash-a"></i></button></div>
+      		<div class="col col-50">{{categoria}}</div>
+    	</div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

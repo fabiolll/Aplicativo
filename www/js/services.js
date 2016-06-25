@@ -1,5 +1,17 @@
 angular.module('starter.services', ['ngResource'])
 
+.service('ProductService', function($q) {
+  return {
+    GetCategories: function(){
+      // Implementar a fucking requisicao aqui
+      console.log("Chegou em GetCategories - ProductService");
+
+      return ['teste1', 'teste2', 'teste3', 'teste4'];
+    } // Fim do Get Categories. Colocar uma virgula aqui se quiser mais.
+
+  };
+})
+
 .service('UserService', function($q) {
     return {
         RegisterUser: function(user) {
@@ -29,7 +41,7 @@ angular.module('starter.services', ['ngResource'])
             var promise = deferred.promise;
 
             if (user.email == 'bla@bla.com' && user.password == 'secret') {
-                deferred.resolve('Welcome ' + user.name + '!');
+                deferred.resolve('Welcome ' + user.email + '!');
             } else {
                 deferred.reject('Wrong credentials.');
             }
