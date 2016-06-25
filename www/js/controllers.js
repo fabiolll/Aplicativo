@@ -21,6 +21,7 @@ angular.module('starter.controllers', [])
 
   $scope.comprarItensDoCarrinho = function(){
     //sei la.. via pra pgina de compras... eu acho
+    window.location.replace("#/app/comprar");
   }
   
   $scope.getItemsDoCarrinho = function(){
@@ -46,6 +47,22 @@ angular.module('starter.controllers', [])
   $scope.setSelectedMarket = function(market){
     $scope.selectedMarket = market;
     window.location.replace("#/app/categoriaprod");
+  }
+
+  $scope.getMeses = function(){
+      return ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+  }
+
+  $scope.getAnos = function(){
+    var tmp = [];
+    for (var i = 2016; i < 2035; i++) {
+      tmp.push(i);
+    }
+    return tmp;
+  }
+
+  $scope.confirmarCompra = function(){
+    //bagaça de botao de confirmar compra foi clicado
   }
 
 })
