@@ -3,6 +3,11 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 //--------------------------------------------------------------------------
 //CARRINHO DE COMPRAS
+  var Item = function (nome, precoUn, qnt) {
+    this.nome = nome;
+    this.precoUn = precoUn;
+    this.qnt = qnt;
+  };
 
   $scope.adicionarItemNoCarrinho = function(item){
     if (item instanceof Item){
@@ -22,12 +27,6 @@ angular.module('starter.controllers', [])
     return $scope.itensDoCarrinho;
   };
 
-  var Item = function (nome, precoUn, qnt) {
-    this.nome = nome;
-    this.precoUn = precoUn;
-    this.qnt = qnt;
-  };
-
   $scope.itensDoCarrinho = [new Item("bla", 2, 30), new Item("bla2", 5, 5)];
 
   $scope.totalPreco = function(){
@@ -41,10 +40,28 @@ angular.module('starter.controllers', [])
 
     return parseFloat("" + tmp.toFixed(2));
   };
-})
 
 //--------------------------------------------------------------------------
+//CARRINHO DE COMPRAS
+var Supermercado = function(nome, endereco){
+  this.nome = nome;
+  this.endereco = endereco;
+}
 
+$scope.supermercados = [new Supermercado("Extra", "Aqui perto ou nao talvez sim pelo contrario SQN 2")];
+
+$scope.getSupermercados = function(){
+  return $scope.supermercados;
+  // return [new Supermercado("Extra", "Aqui perto ou nao talvez sim pelo contrario SQN 2")];
+}
+
+
+
+  
+})
+
+
+//--------------------------------------------------------------------------
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
     { title: 'Reggae', id: 1 },
