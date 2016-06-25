@@ -62,6 +62,22 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+.controller('UserCtrl', function($scope, UserService, $ionicPopup, $state){
+  $scope.user = {};
+
+  $scope.register = function() {
+    UserService.RegisterUser($scope.user).success(function(data) {
+        //$state.go('tab.dash');
+        console.log("Deu bom");
+    }).error(function(data) {
+        var alertPopup = $ionicPopup.alert({
+            title: 'Login failed!',
+            template: 'Please check your credentials!'
+        });
+    });
+  }
 });
 
   
