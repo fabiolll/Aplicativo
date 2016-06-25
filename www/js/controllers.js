@@ -5,41 +5,45 @@ angular.module('starter.controllers', [])
 //CARRINHO DE COMPRAS
 
   $scope.adicionarItemNoCarrinho = function(item){
-    itensDoCarrinho.push(item);
+    if (item instanceof Item){
+        $scope.itensDoCarrinho.splice(0,0,item);
+      }
   }
 
-  $scope.removerItemDoCarrinho = function(index){
-    itensDoCarrinho.splice(index, 1);
+  $scope.removerItemDoCarrinho = function(item){
+    $scope.itensDoCarrinho.splice($scope.itensDoCarrinho.indexOf(item), 1);
   }
 
   $scope.comprarItensDoCarrinho = function(){
-
+    //sei la.. via pra pgina de compras... eu acho
   }
-
-  $scope.itemsDoCarrinho = function(){
-    return itensDoCarrinho;
+  
+  $scope.getItemsDoCarrinho = function(){
+    return $scope.itensDoCarrinho;
   };
+
   var Item = function (nome, precoUn, qnt) {
     this.nome = nome;
     this.precoUn = precoUn;
     this.qnt = qnt;
   };
 
-  var itensDoCarrinho = [new Item("bla", 2, 30), new Item("bla2", 5, 5)];
+  $scope.itensDoCarrinho = [new Item("bla", 2, 30), new Item("bla2", 5, 5)];
 
   $scope.totalPreco = function(){
-
-      // adicionarItemNoCarrinho(new Item("teste2", 30, 1));
-      // $scope.itemsDoCarrinho.push({nome:"teste3", precoUn: 30, qnt: 2})
-
     var tmp = 0.0;
-    for (var i = 0; i < itensDoCarrinho.length; i++) {
-      tmp += itensDoCarrinho[i].precoUn * itensDoCarrinho[i].qnt;
+    var items = $scope.getItemsDoCarrinho();
+    for (var i = 0; i < items.length; i++) {
+      if (items[i] instanceof Item){
+        tmp += items[i].precoUn * items[i].qnt;
+      }
     }
 
     return parseFloat("" + tmp.toFixed(2));
   };
 })
+
+//--------------------------------------------------------------------------
 
 .controller('PlaylistsCtrl', function($scope) {
   $scope.playlists = [
@@ -89,3 +93,5 @@ angular.module('starter.controllers', [])
     });
   }
 });
+
+

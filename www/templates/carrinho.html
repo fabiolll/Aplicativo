@@ -15,19 +15,30 @@
 
 
     <div class="row" id="carrinhoHeader">
-  		<div class="col col-10" style="text-align: left;">Lixo</div>
-  		<div class="col col-50" style="text-align: left;">Produto</div>
+  		<!-- <div class="col col-10" style="text-align: left;"> -->
+  			<div class="buttons">
+        		<button class="button button-icon icon ion-ios-minus-outline"
+          		ng-click="shouldShowDelete = !shouldShowDelete;"></button>
+      </div>
+  		<!-- </div> -->
+  		<div class="col col-67" style="text-align: left;">Produto</div>
   		<div class="col" style="text-align: right;">R$ uni * </div>
   		<div class="col" style="text-align: left;">Qnt</div>
-  		<div class="col ">total</div>
+  		<div class="col" style="text-align: center;">total</div>
 	</div>
 
 
-<ion-list>
-  <ion-item ng-repeat="item in itemsDoCarrinho()">
+<ion-list show-delete="shouldShowDelete"
+          can-swipe="listCanSwipe">
+  <ion-item ng-repeat="item in getItemsDoCarrinho()"  
+  				  item="item"
+                  class="item-remove-animate">
     <div class="row" id="carrinhoDeComparasList">
-  		<div class="col col-10"><button onclick="removerItemDoCarrinho(0)"><i class="icon ion-trash-a"></i></button></div>
-  		<div class="col col-50">{{item.nome}}</div>
+  			<ion-delete-button class="ion-minus-circled"
+                       ng-click="removerItemDoCarrinho(item)">
+    		</ion-delete-button>
+
+  		<div class="col col-67">{{item.nome}}</div>
   		<div class="col" style="text-align: right;">R$ {{item.precoUn}} * </div>
   		<div class="col">{{item.qnt}}</div>
   		<div class="col" style="text-align: right;">{{item.precoUn * item.qnt}}</div>
@@ -44,7 +55,7 @@
 
 
 <div style="padding: 10px;">
-	<button class="button button-block button-positive button-energized" style="font-size: 20px; color: black;">
+	<button class="button button-block button-positive button-energized" style="font-size: 20px; color: black;" onclick="comprarItensDoCarrinho()">
   	Comprar
 	</button>
 </div>
