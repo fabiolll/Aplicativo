@@ -11,24 +11,13 @@
 
 
 <!-- LISTA -->
-<div class="list">
-
-
-  <a class="item" href="#">
-    <div class="row">
-  <div class="col">.col</div>
-  <div class="col">.col</div>
-  <div class="col">.col</div>
-  <div class="col">.col</div>
-</div>
-
-  </a>
-
-
-</div>
-
-
-
-
+    <ion-list>
+      <ion-item ng-repeat="market in markets()">
+        <div class="row" id="market">
+          <div class="col col-10"><button><i class="icon ion-trash-a"></i></button></div>
+          <div class="col col-50">{{market}}</div>
+      </div>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

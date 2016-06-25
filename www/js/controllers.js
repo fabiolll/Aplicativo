@@ -62,6 +62,13 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('MarketCtrl', function($scope, MarketService) {
+  $scope.markets = function(){
+    return MarketService.GetMarkets();
+  }
+
+})
+
 .controller('UserCtrl', function($scope, UserService, $ionicPopup, $state){
   $scope.user = {};
 

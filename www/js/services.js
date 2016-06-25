@@ -6,7 +6,19 @@ angular.module('starter.services', ['ngResource'])
       // Implementar a fucking requisicao aqui
       console.log("Chegou em GetCategories - ProductService");
 
-      return ['teste1', 'teste2', 'teste3', 'teste4'];
+      return ['product1', 'product2', 'product3', 'product4'];
+    } // Fim do Get Categories. Colocar uma virgula aqui se quiser mais.
+
+  };
+})
+
+.service('MarketService', function($q) {
+  return {
+    GetMarkets: function(){
+      // Implementar a fucking requisicao aqui
+      console.log("Chegou em GetMarkets - MarketService");
+
+      return ['market1', 'market2', 'market3', 'market4'];
     } // Fim do Get Categories. Colocar uma virgula aqui se quiser mais.
 
   };
