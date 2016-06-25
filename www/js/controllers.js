@@ -22,7 +22,7 @@ angular.module('starter.controllers', [])
   $scope.comprarItensDoCarrinho = function(){
     //sei la.. via pra pgina de compras... eu acho
   }
-  
+
   $scope.getItemsDoCarrinho = function(){
     return $scope.itensDoCarrinho;
   };
@@ -42,7 +42,7 @@ angular.module('starter.controllers', [])
   };
 
 //--------------------------------------------------------------------------
-  
+
   $scope.setSelectedMarket = function(market){
     $scope.selectedMarket = market;
     window.location.replace("#/app/categoriaprod");
@@ -91,5 +91,3 @@ angular.module('starter.controllers', [])
     });
   }
 });
-
-

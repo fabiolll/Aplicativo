@@ -32,15 +32,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
   .state('app.carrinho', {
       url: '/carrinho',
       views: {
