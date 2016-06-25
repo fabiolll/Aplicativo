@@ -43,6 +43,11 @@ angular.module('starter.controllers', [])
 
 //--------------------------------------------------------------------------
   
+  $scope.setSelectedMarket = function(market){
+    $scope.selectedMarket = market;
+    window.location.replace("#/app/categoriaprod");
+  }
+
 })
 
 .controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {

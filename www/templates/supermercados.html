@@ -12,11 +12,13 @@
 
 <!-- LISTA -->
 <ion-list >
-  <ion-item ng-repeat="item in markets()" >
+  <ion-item ng-repeat="item in markets()"
+            href=""
+            ng-click="setSelectedMarket(item)">
   	<div class="row">
   		<div class="col">{{item}}</div>
-		<div class="col col-10"><i class="icon ion-map"> Mapa</i></div>
-  		<div class="col col-10"><i class="icon ion-android-cart"> Comprar</i></div>
+		<div class="col col-20"><i class="icon ion-map"> Mapa</i></div>
+  		<div class="col col-20"><i class="icon ion-android-cart"> Comprar</i></div>
   	</div>
   		
   </ion-item>
