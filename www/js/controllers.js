@@ -48,6 +48,10 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
+  $scope.goToMap = function(){
+    window.location.replace("#/app/cadastro");
+  }
+
 })
 
 .controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {
