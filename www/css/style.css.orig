@@ -1,0 +1,23 @@
+ .DarkBackground{
+    background-color:#30393A;
+ }
+
+ #carrinhoDeComparasList{
+
+ }
+<<<<<<< HEAD
+
+ #carrinhoHeader{
+ 	text-align: right; 
+ 	background-color: #dddddd;
+ }
+
+#carrinhoFooter{
+	text-align: right; 
+ 	background-color: #dddddd;
+ 	height: 50px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+}
+=======
+>>>>>>> 06c4250a0cb16f51624735cd94cc885e975093c8

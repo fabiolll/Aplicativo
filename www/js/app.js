@@ -41,7 +41,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-  .state('app.browse', {
+  .state('app.carrinho', {
       url: '/carrinho',
       views: {
         'menuContent': {
@@ -77,6 +77,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
           }
         }
       })
+
+      .state('app.login', {
+            url: '/login',
+            views: {
+              'menuContent': {
+                templateUrl: 'templates/login.html',
+                controller:'UserCtrl'
+              }
+            }
+          })
 
   .state('app.single', {
     url: '/playlists/:playlistId',

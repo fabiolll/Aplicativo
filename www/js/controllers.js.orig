@@ -9,6 +9,7 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+<<<<<<< HEAD
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -79,6 +80,15 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+=======
+  $scope.items = [
+    {nome : "test1"},
+    {nome : "test2"},
+    {nome : "test3"}
+  ];
+
+  $scope.totalPreco = "PRECO TOTAL = 100";
+>>>>>>> 06c4250a0cb16f51624735cd94cc885e975093c8
 })
 
 .controller('PlaylistsCtrl', function($scope) {
