@@ -42,9 +42,43 @@ angular.module('starter.controllers', [])
   };
 
 //--------------------------------------------------------------------------
+//CARRINHO DE COMPRAS
+var Supermercado = function(nome, endereco){
+  this.nome = nome;
+  this.endereco = endereco;
+}
+
+$scope.supermercados = [new Supermercado("Extra", "Aqui perto ou nao talvez sim pelo contrario SQN 2")];
+
+$scope.getSupermercados = function(){
+  return $scope.supermercados;
+  // return [new Supermercado("Extra", "Aqui perto ou nao talvez sim pelo contrario SQN 2")];
+}
+
+
+
   
 })
 
+<<<<<<< HEAD
+
+//--------------------------------------------------------------------------
+.controller('PlaylistsCtrl', function($scope) {
+  $scope.playlists = [
+    { title: 'Reggae', id: 1 },
+    { title: 'Chill', id: 2 },
+    { title: 'Dubstep', id: 3 },
+    { title: 'Indie', id: 4 },
+    { title: 'Rap', id: 5 },
+    { title: 'Cowbell', id: 6 }
+  ];
+})
+
+.controller('PlaylistCtrl', function($scope, $stateParams) {
+})
+
+=======
+>>>>>>> d1f49ed623dc5025c542046d13b8fd5e85e16493
 .controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {
   $scope.categories = function(){
     return ProductService.GetCategories();
