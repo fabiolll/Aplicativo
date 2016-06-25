@@ -13,28 +13,41 @@
 <!-- LISTA -->
 <div class="list">
 
+
+    <div class="row" id="carrinhoHeader">
+  		<div class="col col-10" style="text-align: left;">Lixo</div>
+  		<div class="col col-50" style="text-align: left;">Produto</div>
+  		<div class="col" style="text-align: right;">R$ uni * </div>
+  		<div class="col" style="text-align: left;">Qnt</div>
+  		<div class="col ">total</div>
+	</div>
+
+
 <ion-list>
-  <ion-item ng-repeat="item in items">
+  <ion-item ng-repeat="item in itemsDoCarrinho()">
     <div class="row" id="carrinhoDeComparasList">
-  		<div class="col col-10"><i class="icon ion-trash-a"></i></div>
+  		<div class="col col-10"><button onclick="removerItemDoCarrinho(0)"><i class="icon ion-trash-a"></i></button></div>
   		<div class="col col-50">{{item.nome}}</div>
-  		<div class="col">$ Un</div>
-  		<div class="col">* Qnt</div>
-  		<div class="col" style="text-align: right;">$</div>
+  		<div class="col" style="text-align: right;">R$ {{item.precoUn}} * </div>
+  		<div class="col">{{item.qnt}}</div>
+  		<div class="col" style="text-align: right;">{{item.precoUn * item.qnt}}</div>
 	</div>
   </ion-item>
 </ion-list>
 
-<a class="item" href="#"">
-    <div class="row" style="text-align: right;">
-  		<div class="col col-100">{{totalPreco}}</div>
+    <div class="row" id="carrinhoFooter">
+  		<div class="col col-100">Preço Total: R$ {{totalPreco()}}</div>
 	</div>
- </a>
+
 
 </div>
 
     
-
+<div style="padding: 10px;">
+	<button class="button button-block button-positive button-energized" style="font-size: 20px; color: black;">
+  	Comprar
+	</button>
+</div>
 
 
 

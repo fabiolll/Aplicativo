@@ -3,5 +3,18 @@
  }
 
  #carrinhoDeComparasList{
- 	
+
  }
+
+ #carrinhoHeader{
+ 	text-align: right; 
+ 	background-color: #dddddd;
+ }
+
+#carrinhoFooter{
+	text-align: right; 
+ 	background-color: #dddddd;
+ 	height: 50px;
+ 	font-size: 20px;
+ 	vertical-align: text-bottom;
+}

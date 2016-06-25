@@ -29,14 +29,45 @@ angular.module('starter.controllers', [])
     $scope.modal.show();
   };
 
+//--------------------------------------------------------------------------
+//CARRINHO DE COMPRAS
 
-  $scope.items = [
-    {nome : "test1"},
-    {nome : "test2"},
-    {nome : "test3"}
-  ];
+  $scope.adicionarItemNoCarrinho = function(item){
+    itensDoCarrinho.push(item);
+  }
 
-  $scope.totalPreco = "PRECO TOTAL = 100";
+  $scope.removerItemDoCarrinho = function(index){
+    itensDoCarrinho.splice(index, 1);
+  }
+
+  $scope.comprarItensDoCarrinho = function(){
+
+  }
+
+  $scope.itemsDoCarrinho = function(){
+    return itensDoCarrinho;
+  };
+  var Item = function (nome, precoUn, qnt) {
+    this.nome = nome;
+    this.precoUn = precoUn;
+    this.qnt = qnt;
+  };
+
+  var itensDoCarrinho = [new Item("bla", 2, 30), new Item("bla2", 5, 5)];
+
+  $scope.totalPreco = function(){
+
+      // adicionarItemNoCarrinho(new Item("teste2", 30, 1));
+      // $scope.itemsDoCarrinho.push({nome:"teste3", precoUn: 30, qnt: 2})
+
+    var tmp = 0.0;
+    for (var i = 0; i < itensDoCarrinho.length; i++) {
+      tmp += itensDoCarrinho[i].precoUn * itensDoCarrinho[i].qnt;
+    }
+
+    return parseFloat("" + tmp.toFixed(2));
+  };
+  //--------------------------------------------------------------------------
 
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
