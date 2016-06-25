@@ -23,7 +23,7 @@ angular.module('starter.controllers', [])
     //sei la.. via pra pgina de compras... eu acho
     window.location.replace("#/app/comprar");
   }
-  
+
   $scope.getItemsDoCarrinho = function(){
     return $scope.itensDoCarrinho;
   };
@@ -43,7 +43,7 @@ angular.module('starter.controllers', [])
   };
 
 //--------------------------------------------------------------------------
-  
+
   $scope.setSelectedMarket = function(market){
     $scope.selectedMarket = market;
     window.location.replace("#/app/categoriaprod");
@@ -108,5 +108,3 @@ angular.module('starter.controllers', [])
     });
   }
 });
-
-
