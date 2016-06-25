@@ -1,0 +1,42 @@
+<ion-view view-title="carrinho" class="DarkBackground">
+  <ion-content>
+
+<!-- SEARCH -->
+	<div class="list list-inset">
+  		<label class="item item-input">
+    		<i class="icon ion-search placeholder-icon"></i>
+    		<input type="text" placeholder="Search">
+  		</label>
+	</div>
+
+
+<!-- LISTA -->
+<div class="list">
+
+<ion-list>
+  <ion-item ng-repeat="item in items">
+    <div class="row" id="carrinhoDeComparasList">
+  		<div class="col col-10"><i class="icon ion-trash-a"></i></div>
+  		<div class="col col-50">{{item.nome}}</div>
+  		<div class="col">$ Un</div>
+  		<div class="col">* Qnt</div>
+  		<div class="col" style="text-align: right;">$</div>
+	</div>
+  </ion-item>
+</ion-list>
+
+<a class="item" href="#"">
+    <div class="row" style="text-align: right;">
+  		<div class="col col-100">{{totalPreco}}</div>
+	</div>
+ </a>
+
+</div>
+
+    
+
+
+
+
+  </ion-content>
+</ion-view>

@@ -29,6 +29,15 @@ angular.module('starter.controllers', [])
     $scope.modal.show();
   };
 
+
+  $scope.items = [
+    {nome : "test1"},
+    {nome : "test2"},
+    {nome : "test3"}
+  ];
+
+  $scope.totalPreco = "PRECO TOTAL = 100";
+
   // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
     console.log('Doing login', $scope.loginData);
@@ -54,3 +63,6 @@ angular.module('starter.controllers', [])
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });
+
+  
+  
