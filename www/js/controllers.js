@@ -48,6 +48,10 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
+  $scope.displayMap = function(location) {
+    launchnavigator.navigate(location);
+  }
+
 })
 
 .controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {
