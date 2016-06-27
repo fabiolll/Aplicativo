@@ -1,4 +1,53 @@
-<ion-view view-title="Comprar" class="DarkBackground">
+<ion-view view-title="Cadastro">
+  <ion-content>
+    <div class="button button-full button-energized">
+        <h4 class="title">Pagamento</h4> <h3>Cartão de Crédito</h3>
+    </div>
+
+    <div class="row">
+      <div class="col col-50" style="text-align: left;"><h4>Valor total da Compra:</h4></div>
+      <div class="col col-50" style="text-align: right;"><h4>R$ {{totalPreco()}}</h4></div>
+    </div>
+
+    <div class="list">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Número do Cartão de Crédito</span>
+        <input type="text" placeholder="1111 1111 1111 1111" ng-model="user.name">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Nome (Como está no cartão)</span>
+        <input type="text" placeholder="João J P G Silva" ng-model="user.email">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Código de Segurança</span>
+        <input type="text" placeholder="111" ng-model="user.phone">
+      </label>
+      <label class="item item-input item-stacked-label">
+          <div class="row">
+            <div class="col">
+              <span class="input-label">MÊS: </span>
+              <select>
+                <option ng-repeat="item in getMeses()">{{item}}</option>
+              </select>
+            </div>
+            <div class="col">
+              <span class="input-label">ANO: </span>
+              <select>
+                <option ng-repeat="item in getAnos()">{{item}}</option>
+              </select>
+            </div>
+          </div>
+    </label>
+    </div>
+    <div class="padding">
+      <button ng-click="confirmarCompra()" class="button button-block button-energized padding">
+        Confirmar
+      </button>
+    </div>
+  </ion-content>
+</ion-view>
+
+<!-- <ion-view view-title="Comprar">
       <ion-content>
       <div class="button button-full button-energized">
           <h4 class="title">Pagamento</h4> <h3>Cartão de Crédito</h3>
@@ -19,17 +68,15 @@
               <span class="input-label">Nome como está no cartão</span>
               <input type="text" placeholder="  Jonh J Silva" ng-model="user.email">
           </label>
-            
+
         <label class="item item-input item-stacked-label">
             <div class="row">
-            <!-- MESES -->
               <div class="col">
               <span class="input-label">MÊS: </span>
                 <select>
                   <option ng-repeat="item in getMeses()">{{item}}</option>
                 </select>
               </div>
-              <!-- ANO -->
               <div class="col">
                 <span class="input-label">ANO: </span>
                 <select>
@@ -43,7 +90,7 @@
           <span class="input-label">Codigo de segurança </span>
           <input type="text" placeholder="  111" ng-model="user.name">
       </label>
-      
+
 
           </div>
           <div class="padding">
@@ -52,4 +99,4 @@
             </button>
           </div>
       </ion-content>
-    </ion-view>
+    </ion-view> -->

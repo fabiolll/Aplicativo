@@ -7,23 +7,19 @@
  }
 
  #carrinhoHeader{
- 	text-align: right; 
+ 	text-align: right;
  	background-color: #dddddd;
  	height: 40px;
  	vertical-align: bottom;
  }
 
 #carrinhoFooter{
-	text-align: right; 
+	text-align: right;
  	background-color: #dddddd;
  	height: 50px;
  	font-size: 20px;
  	vertical-align: text-bottom;
  	padding-top: 10px;
-}
-
-.input-label{
-	color: #fff;
 }
 
 .button-energized{
