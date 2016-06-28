@@ -48,8 +48,8 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
-  $scope.goToMap = function(){
-    window.location.replace("#/app/cadastro");
+  $scope.displayMap = function(location) {
+    launchnavigator.navigate(location);
   }
 
 })
