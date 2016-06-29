@@ -49,8 +49,8 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
-  $scope.displayMap = function(location) {
-    launchnavigator.navigate(location);
+  $scope.goToMap = function(market) {
+    launchnavigator.navigate(market.location);
   }
 
   $scope.getMeses = function(){

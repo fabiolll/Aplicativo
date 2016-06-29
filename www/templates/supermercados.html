@@ -1,6 +1,5 @@
 <ion-view view-title="Escolha um Supermercado" class="DarkBackground">
   <ion-content>
-
 <!-- SEARCH -->
 	<div class="list list-inset">
   		<label class="item item-input">
@@ -8,19 +7,14 @@
     		<input type="text" placeholder="Search">
   		</label>
 	</div>
-
-
 <!-- LISTA -->
 <ion-list >
   <ion-item ng-repeat="item in markets()">
   	<div class="row row-center" style="word-wrap:break-word;">
   		<div class="col col-67" ng-click="setSelectedMarket(item)">{{item}}</div>
       <div class="col col-33">
-
-            <button class="icon ion-android-cart" 
-                                      ng-click="setSelectedMarket(item)"> Comprar</button><br /><br />
-          <button class="icon ion-map" 
-                                      ng-click="goToMap()"> Mapa</button>
+        <button class="icon ion-android-cart" ng-click="setSelectedMarket(item)"> Comprar</button><br /><br />
+        <button class="icon ion-map" ng-click="goToMap(item)"> Mapa</button>
       </div>
   	</div>
 
