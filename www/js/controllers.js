@@ -49,8 +49,13 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
-  $scope.goToMap = function(market) {
-    launchnavigator.navigate(market.location);
+  $scope.setSelCat = function(cat){
+    $scope.selectedCategory = cat;
+    window.location.replace("#/app/products");
+  }
+
+  $scope.goToMap = function(endereco) {
+    launchnavigator.navigate(endereco);
   }
 
   $scope.getMeses = function(){
@@ -71,18 +76,108 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('ProductCtrl', function($scope, ProductService, $ionicPopup, $state) {
-  $scope.categories = function(){
-    return ProductService.GetCategories();
-  }
+.controller('ProductCtrl', function($scope, $ionicLoading, $ionicPopup, $state, $http) {
+  $scope.products = [];
 
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: '<p>Carregando...</p><ion-spinner></ion-spinner>'
+    });
+  };
+
+  $scope.hide = function(){
+    $ionicLoading.hide();
+  };
+
+  //$scope.show($ionicLoading);
+
+  // var url = "http://10.61.37.93/produtos/" + $scope.selectedCategory.cod_categoria + "/" + $scope.selectedMarket.cod_unidade;
+
+  // var alertPopup = $ionicPopup.alert({
+  //   title: 'Atenção',
+  //   template: $scope.selectedCategory.descricao
+  // });
+
+  // $http.get(url)
+  //   .success(function(data){
+  //     $scope.products = data;
+  //   })
+  //   .error(function(data){
+  //     alert("Verifique sua conexão com a internet!");
+  //   })
+  //   .finally(function($ionicLoading) {
+  //     // On both cases hide the loading
+  //     $scope.hide($ionicLoading);
+  //   });
 })
 
-.controller('MarketCtrl', function($scope, MarketService) {
-  $scope.markets = function(){
-    return MarketService.GetMarkets();
-  }
+.controller('CategoriesCtrl', function($scope, $ionicLoading, $ionicPopup, $state, $http) {
+  $scope.categories = [];
 
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: '<p>Carregando...</p><ion-spinner></ion-spinner>'
+    });
+  };
+
+  $scope.hide = function(){
+    $ionicLoading.hide();
+  };
+
+  $scope.show($ionicLoading);
+
+  $http.get("http://10.61.37.93/buscarCategorias")
+    .success(function(data){
+      $scope.categories = data;
+    })
+    .error(function(data){
+      alert("Verifique sua conexão com a internet!");
+    })
+    .finally(function($ionicLoading) {
+      // On both cases hide the loading
+      $scope.hide($ionicLoading);
+    });
+
+    $scope.setSelectedCategory = function(blabla){
+      $scope.setSelCat(blabla);
+    }
+})
+
+.controller('MarketCtrl', function($scope, $http, $ionicLoading, $ionicPopup) {
+  $scope.markets = [];
+
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: '<p>Carregando...</p><ion-spinner></ion-spinner>'
+    });
+  };
+
+  $scope.hide = function(){
+    $ionicLoading.hide();
+  };
+
+  $scope.show($ionicLoading);
+
+  $http.get("http://10.61.37.93/supermercados")
+    .success(function(data){
+      $scope.markets = data;
+    })
+    .error(function(data){
+      alert("Verifique sua conexão com a internet!");
+    })
+    .finally(function($ionicLoading) {
+      // On both cases hide the loading
+      $scope.hide($ionicLoading);
+    });
+
+    $scope.$on('$ionicView.enter', function() {
+      if($scope.selectedMarket){
+        var alertPopup = $ionicPopup.alert({
+          title: 'Atenção',
+          template: 'Os produtos selecionados nesse mercado serão perdidos.'
+        });
+      }
+    })
 })
 
 .controller('UserCtrl', function($scope, UserService, $ionicPopup, $state){

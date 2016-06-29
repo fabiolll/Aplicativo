@@ -56,6 +56,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/categoriaprod.html',
+          controller: 'CategoriesCtrl'
+        }
+      }
+    })
+
+    .state('app.products', {
+      url: '/products',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/products.html',
           controller: 'ProductCtrl'
         }
       }

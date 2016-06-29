@@ -1,4 +1,4 @@
-<ion-view view-title="Categorias" class="DarkBackground">
+<ion-view view-title="Produtos" class="DarkBackground">
   <ion-content>
     <!-- SEARCH -->
   	<div class="list list-inset">
@@ -8,9 +8,9 @@
     		</label>
   	</div>
     <ion-list>
-      <ion-item ng-repeat="categoria in categories">
-        <div class="row" id="categoriasproduto" ng-click="setSelectedCategory(categoria)">
-      		<div class="col col-50">{{categoria.descricao}} e {{selectedMarket.nome_fantasia}}</div>
+      <ion-item ng-repeat="product in products">
+        <div class="row" id="categoriasproduto">
+      		<div class="col col-50">{{product.nome}} e {{selectedCategory.descricao}}</div>
     	</div>
       </ion-item>
     </ion-list>
