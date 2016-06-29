@@ -107,6 +107,10 @@ angular.module('starter.controllers', [])
   //     $scope.hide($ionicLoading);
   //   });
 
+  for (i = 0; i < $scope.products.length; i++){
+    $scope.products[i].qnt = 0;
+  }
+
   $scope.addToCart = function(product){
     $scope.adicionarItemNoCarrinho(product);
     var alertPopup = $ionicPopup.alert({
