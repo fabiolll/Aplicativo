@@ -10,7 +10,9 @@
     <ion-list>
       <ion-item ng-repeat="product in products">
         <div class="row" id="categoriasproduto">
-      		<div class="col col-50">{{product.nome}} e {{selectedCategory.descricao}}</div>
+      		<div class="col col-67">{{product.nome}}</div>
+            <!-- e {{selectedCategory.descricao}}</div> -->
+          <button class="col col-offset-10 icon ion-plus-circled padding" ng-click="addToCart(product)"></button>
     	</div>
       </ion-item>
     </ion-list>

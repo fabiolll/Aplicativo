@@ -89,6 +89,8 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
+  $scope.products = [{"nome":"bla"}, {"nome":"bla2"}, {"nome":"bla3"}, {"nome":"bla4"}];
+
   //$scope.show($ionicLoading);
 
   // var url = "http://10.61.37.93/produtos/" + $scope.selectedCategory.cod_categoria + "/" + $scope.selectedMarket.cod_unidade;
@@ -109,9 +111,17 @@ angular.module('starter.controllers', [])
   //     // On both cases hide the loading
   //     $scope.hide($ionicLoading);
   //   });
+
+  $scope.addToCart = function(product){
+    // $scope.
+    var alertPopup = $ionicPopup.alert({
+      title: 'Atenção',
+      template: product.nome
+    });
+  }
 })
 
-.controller('CategoriesCtrl', function($scope, $ionicLoading, $ionicPopup, $state, $http) {
+.controller('CategoriesCtrl', function($scope, $ionicLoading, $ionicPopup, $http) {
   $scope.categories = [];
 
   $scope.show = function() {
@@ -131,7 +141,10 @@ angular.module('starter.controllers', [])
       $scope.categories = data;
     })
     .error(function(data){
-      alert("Verifique sua conexão com a internet!");
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: 'Verifique sua conexão com a internet.'
+      });
     })
     .finally(function($ionicLoading) {
       // On both cases hide the loading
@@ -156,14 +169,17 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  $scope.show($ionicLoading);
+  //$scope.show($ionicLoading);
 
   $http.get("http://10.61.37.93/supermercados")
     .success(function(data){
       $scope.markets = data;
     })
     .error(function(data){
-      alert("Verifique sua conexão com a internet!");
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: 'Verifique sua conexão com a internet.'
+      });
     })
     .finally(function($ionicLoading) {
       // On both cases hide the loading
@@ -180,7 +196,7 @@ angular.module('starter.controllers', [])
     })
 })
 
-.controller('UserCtrl', function($scope, UserService, $ionicPopup, $state){
+.controller('UserCtrl', function($scope, UserService, $ionicPopup){
   $scope.user = {};
 
   $scope.login = function() {
@@ -197,7 +213,6 @@ angular.module('starter.controllers', [])
 
   $scope.register = function() {
     UserService.RegisterUser($scope.user).success(function(data) {
-        //$state.go('tab.dash');
         console.log("Deu bom Cadastro");
     }).error(function(data) {
         var alertPopup = $ionicPopup.alert({
