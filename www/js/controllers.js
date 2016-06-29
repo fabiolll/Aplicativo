@@ -49,6 +49,10 @@ angular.module('starter.controllers', [])
     window.location.replace("#/app/categoriaprod");
   }
 
+  $scope.displayMap = function(location) {
+    launchnavigator.navigate(location);
+  }
+
   $scope.getMeses = function(){
       return ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
   }
