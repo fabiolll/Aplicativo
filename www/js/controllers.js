@@ -3,20 +3,16 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 //--------------------------------------------------------------------------
 //CARRINHO DE COMPRAS
-  var Item = function (nome, precoUn, qnt) {
-    this.nome = nome;
-    this.precoUn = precoUn;
-    this.qnt = qnt;
-  };
+// O carrinho vai ser alterado
+// Agora o que vai tratar se tem igual é outra função específica
+// Pra poder mostrar quantidade
 
-  $scope.adicionarItemNoCarrinho = function(item){
-    if (item instanceof Item){
-        $scope.itensDoCarrinho.splice(0,0,item);
-      }
+  $scope.adicionarItemNoCarrinho = function(product){
+    $scope.itensDoCarrinho.splice(0,0,product);
   }
 
-  $scope.removerItemDoCarrinho = function(item){
-    $scope.itensDoCarrinho.splice($scope.itensDoCarrinho.indexOf(item), 1);
+  $scope.removerItemDoCarrinho = function(product){
+    $scope.itensDoCarrinho.splice($scope.itensDoCarrinho.indexOf(product), 1);
   }
 
   $scope.comprarItensDoCarrinho = function(){
@@ -28,15 +24,13 @@ angular.module('starter.controllers', [])
     return $scope.itensDoCarrinho;
   };
 
-  $scope.itensDoCarrinho = [new Item("bla", 2, 30), new Item("bla2", 5, 5)];
+  $scope.itensDoCarrinho = [];
 
   $scope.totalPreco = function(){
     var tmp = 0.0;
     var items = $scope.getItemsDoCarrinho();
     for (var i = 0; i < items.length; i++) {
-      if (items[i] instanceof Item){
-        tmp += items[i].precoUn * items[i].qnt;
-      }
+      tmp += items[i].preco;
     }
 
     return parseFloat("" + tmp.toFixed(2));
@@ -89,7 +83,8 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  $scope.products = [{"nome":"bla"}, {"nome":"bla2"}, {"nome":"bla3"}, {"nome":"bla4"}];
+  $scope.products = [{"nome":"bla", "preco":"10"}, {"nome":"bla2", "preco":"15"},
+  {"nome":"bla3", "preco":"20"}, {"nome":"bla4", "preco":"5"}];
 
   //$scope.show($ionicLoading);
 
@@ -113,9 +108,9 @@ angular.module('starter.controllers', [])
   //   });
 
   $scope.addToCart = function(product){
-    // $scope.
+    $scope.adicionarItemNoCarrinho(product);
     var alertPopup = $ionicPopup.alert({
-      title: 'Atenção',
+      title: 'Produto ' + product.nome + " adicionado no carrinho",
       template: product.nome
     });
   }
