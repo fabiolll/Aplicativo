@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicPopup, $ionicLoading, $ionicHistory) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicPopup, $ionicLoading, $ionicHistory, $http) {
 //--------------------------------------------------------------------------
 //CARRINHO DE COMPRAS
 // O carrinho vai ser alterado
@@ -137,21 +137,32 @@ angular.module('starter.controllers', [])
 
       window.location.replace("#/app/login");
     } else {
-      $scope.show($ionicLoading);
+      //$scope.show($ionicLoading);
 
       var params = {
         "cod_cliente":$scope.cod_cliente,
         "cod_unidade":$scope.selectedMarket.cod_unidade,
+        "valor_total":$scope.totalPreco(),
         "produtos":{
 
         }
       };
 
+      var products = [];
+
       var items = $scope.trataCarrinho();
 
       for(i = 0; i < items.length; i++){
-        params.produtos[items[i].cod_produto] = items[i].qnt;
+        products.push({"cod_estoque_produto":items[i].cod_estoque_produto,"quantidade":items[i].qnt});
       }
+
+      params.produtos = products;
+
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        // template: '<center>Verifique sua conexão com a internet.</center>'
+        template: '<center>'+ JSON.stringify(params) +'</center>'
+      });
 
       var config = {
           headers : {
@@ -159,58 +170,53 @@ angular.module('starter.controllers', [])
           }
       };
 
-      // $http.post('http://10.61.37.93/user/cadastrar', params, config)
-      // .success(function (data, status, headers, config) {
-      //   if(data.success){
-      //     var alertPopup = $ionicPopup.alert({
-      //       title: 'Sucesso',
-      //       template: '<center>Cadastrado com sucesso.</center>'
-      //     });
-      //
-      //     window.location.replace("#/app/supermercados");
-      //   }else{
-      //     var alertPopup = $ionicPopup.alert({
-      //       title: 'Erro',
-      //       template: '<center>Falha no cadastro.</center>'
-      //     });
-      //   }
-      // })
-      // .error(function (data, status, header, config) {
-      //   var alertPopup = $ionicPopup.alert({
-      //     title: 'Erro',
-      //     template: '<center>Verifique sua conexão com a internet.</center>'
-      //   });
-      // })
-      // .finally(function($ionicLoading) {
-      //   // On both cases hide the loading
-      //   $scope.hide($ionicLoading);
-      // });
+      $http.post('http://10.61.37.93/compra', params, config)
+      .success(function (data, status, headers, config) {
+        if(data.success){
+          // $scope.hide($ionicLoading);
 
-      $scope.hide($ionicLoading);
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
 
-      $ionicHistory.nextViewOptions({
-        disableBack: true
-      });
+          var temporaria = $scope.selectedMarket.endereco;
 
-      var temporaria = $scope.selectedMarket.endereco;
+          $scope.deselectMarket();
 
-      $scope.deselectMarket();
+          window.location.replace("#/app/supermercados");
 
-      window.location.replace("#/app/supermercados");
+          var alertPopup = $ionicPopup.alert({
+            title: 'Compra Efetuada!',
+            // template: '<center>Você será redirecionado ao mapa.</center>'
+            template: '<center>'+ data +'</center>'
+          }).then(function(res) {
+            $ionicLoading.show({
+              template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
+            });
 
-      var alertPopup = $ionicPopup.alert({
-        title: 'Compra Efetuada!',
-        template: '<center>Você será redirecionado ao mapa.</center>'
-      }).then(function(res) {
-        $ionicLoading.show({
-          template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
+            launchnavigator.navigate(temporaria);
+
+            setTimeout(function(){
+              $scope.hide($ionicLoading)
+            }, 4000);
+          });
+        }else{
+          // $scope.hide($ionicLoading);
+
+          var alertPopup = $ionicPopup.alert({
+            title: 'Erro',
+            template: '<center>Falha na realizaçã o da compra.</center>'
+          });
+        }
+      })
+      .error(function (data, status, header, config) {
+        // $scope.hide($ionicLoading);
+
+        var alertPopup = $ionicPopup.alert({
+          title: 'Erro',
+          // template: '<center>Verifique sua conexão com a internet.</center>'
+          template: '<center>'+ data +'</center>'
         });
-
-        launchnavigator.navigate(temporaria);
-
-        setTimeout(function(){
-          $scope.hide($ionicLoading)
-        }, 4000);
       });
     }
   }
