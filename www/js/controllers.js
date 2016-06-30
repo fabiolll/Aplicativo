@@ -93,7 +93,15 @@ angular.module('starter.controllers', [])
   }
 
   $scope.goToMap = function(endereco) {
+    $ionicLoading.show({
+      template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
+    });
+
     launchnavigator.navigate(endereco);
+
+    setTimeout(function(){
+      $scope.hide($ionicLoading)
+    }, 4000);
   }
 
   $scope.getMeses = function(){
@@ -350,7 +358,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('UserCtrl', function($scope, $ionicPopup, $http, $ionicLoading, $ionicNavBarDelegate){
+.controller('UserCtrl', function($scope, $ionicPopup, $http, $ionicLoading, $ionicNavBarDelegate, $ionicHistory){
   $scope.user = {};
 
   $scope.show = function() {
@@ -389,6 +397,10 @@ angular.module('starter.controllers', [])
         $scope.setCodUser(data.dados.cod_cliente);
 
         if(!($scope.veioDeCompra)){
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+
           window.location.replace("#/app/supermercados");
         } else {
           $ionicNavBarDelegate.back();
@@ -436,6 +448,16 @@ angular.module('starter.controllers', [])
           title: 'Sucesso',
           template: '<center>Cadastrado com sucesso.</center>'
         });
+
+        if(!($scope.veioDeCompra)){
+          $ionicHistory.nextViewOptions({
+            disableBack: true
+          });
+
+          window.location.replace("#/app/supermercados");
+        } else {
+          $ionicNavBarDelegate.back();
+        }
 
         window.location.replace("#/app/supermercados");
       }else{
