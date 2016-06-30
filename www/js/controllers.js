@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $ionicPopup, $ionicLoading, $ionicHistory) {
 //--------------------------------------------------------------------------
 //CARRINHO DE COMPRAS
 // O carrinho vai ser alterado
@@ -32,13 +32,49 @@ angular.module('starter.controllers', [])
 
   $scope.totalPreco = function(){
     var tmp = 0.0;
-    // var items = $scope.getItemsDoCarrinho();
-    // for (var i = 0; i < items.length; i++) {
-    //   tmp += items[i].preco_produto;
-    // }
+
+    var items = $scope.trataCarrinho();
+
+    for (var i = 0; i < items.length; i++) {
+      tmp += items[i].preco_produto * items[i].qnt;
+    }
 
     return parseFloat("" + tmp.toFixed(2));
   };
+
+  $scope.contains = function(a, obj) {
+    var i = a.length;
+    while (i--) {
+       if (a[i].cod_produto === obj.cod_produto) {
+           return true;
+       }
+    }
+    return false;
+  }
+
+  $scope.trataCarrinho = function(){
+    var carrinhoTratado = [];
+
+    for(i = 0; i < $scope.itensDoCarrinho.length; i++){
+      if(!($scope.contains(carrinhoTratado, $scope.itensDoCarrinho[i]))){
+        carrinhoTratado.push($scope.itensDoCarrinho[i]);
+        carrinhoTratado[carrinhoTratado.length - 1].qnt = 1;
+      } else {
+        for(j = 0; j < carrinhoTratado.length; j++){
+          if(carrinhoTratado[j].cod_produto === $scope.itensDoCarrinho[i].cod_produto){
+            carrinhoTratado[j].qnt += 1;
+            break;
+          }
+        }
+      }
+    }
+
+    return carrinhoTratado;
+  }
+
+  $scope.setCodUser = function(cod){
+    $scope.cod_cliente = cod;
+  }
 
 //--------------------------------------------------------------------------
 
@@ -72,10 +108,105 @@ angular.module('starter.controllers', [])
     return tmp;
   }
 
-  $scope.confirmarCompra = function(){
-    //bagaça de botao de confirmar compra foi clicado
-  }
+  $scope.show = function() {
+    $ionicLoading.show({
+      template: '<p>Carregando...</p><ion-spinner></ion-spinner>'
+    });
+  };
 
+  $scope.hide = function(){
+    $ionicLoading.hide();
+  };
+
+  $scope.confirmarCompra = function(){
+    if($scope.cod_cliente == null){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Atenção',
+        template: '<center>Você precisa estar logado para comprar!</center>'
+      });
+
+      $scope.veioDeCompra = true;
+
+      window.location.replace("#/app/login");
+    } else {
+      $scope.show($ionicLoading);
+
+      var params = {
+        "cod_cliente":$scope.cod_cliente,
+        "cod_unidade":$scope.selectedMarket.cod_unidade,
+        "produtos":{
+
+        }
+      };
+
+      var items = $scope.trataCarrinho();
+
+      for(i = 0; i < items.length; i++){
+        params.produtos[items[i].cod_produto] = items[i].qnt;
+      }
+
+      var config = {
+          headers : {
+              'Content-Type': 'application/json;charset=utf-8;'
+          }
+      };
+
+      // $http.post('http://10.61.37.93/user/cadastrar', params, config)
+      // .success(function (data, status, headers, config) {
+      //   if(data.success){
+      //     var alertPopup = $ionicPopup.alert({
+      //       title: 'Sucesso',
+      //       template: '<center>Cadastrado com sucesso.</center>'
+      //     });
+      //
+      //     window.location.replace("#/app/supermercados");
+      //   }else{
+      //     var alertPopup = $ionicPopup.alert({
+      //       title: 'Erro',
+      //       template: '<center>Falha no cadastro.</center>'
+      //     });
+      //   }
+      // })
+      // .error(function (data, status, header, config) {
+      //   var alertPopup = $ionicPopup.alert({
+      //     title: 'Erro',
+      //     template: '<center>Verifique sua conexão com a internet.</center>'
+      //   });
+      // })
+      // .finally(function($ionicLoading) {
+      //   // On both cases hide the loading
+      //   $scope.hide($ionicLoading);
+      // });
+
+      $scope.hide($ionicLoading);
+
+      $ionicHistory.nextViewOptions({
+        disableBack: true
+      });
+
+      var temporaria = $scope.selectedMarket.endereco;
+
+      $scope.deselectMarket();
+
+      window.location.replace("#/app/supermercados");
+
+      var alertPopup = $ionicPopup.alert({
+        title: 'Compra Efetuada!',
+        template: '<center>Você será redirecionado ao mapa.</center>'
+      }).then(function(res) {
+        $ionicLoading.show({
+          template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>',
+          delay: 5
+        });
+
+        launchnavigator.navigate(temporaria);
+
+        $this.addEventListener('resume', function() {
+          $scope.hide($ionicLoading);
+        }, false);
+      });
+    }
+  }
 })
 
 .controller('ProductCtrl', function($scope, $ionicLoading, $ionicPopup, $state, $http) {
@@ -167,34 +298,40 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  $scope.show($ionicLoading);
+  $scope.doRefresh = function(){
+    $scope.show($ionicLoading);
 
-  $http.get("http://10.61.37.93/supermercados")
-    .success(function(data){
-      $scope.markets = data;
-    })
-    .error(function(data){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Erro',
-        template: '<center>Verifique sua conexão com a internet.</center>'
-      });
-    })
-    .finally(function($ionicLoading) {
-      // On both cases hide the loading
-      $scope.hide($ionicLoading);
-    });
-
-    $scope.$on('$ionicView.enter', function() {
-      if($scope.selectedMarket){
+    $http.get("http://10.61.37.93/supermercados")
+      .success(function(data){
+        $scope.markets = data;
+      })
+      .error(function(data){
         var alertPopup = $ionicPopup.alert({
-          title: 'Atenção',
-          template: '<center>Os produtos selecionados nesse mercado foram perdidos.</center>'
+          title: 'Erro',
+          template: '<center>Verifique sua conexão com a internet.</center>'
         });
+      })
+      .finally(function($ionicLoading) {
+        // On both cases hide the loading
+        $scope.hide($ionicLoading);
+      });
 
-        $scope.zerarCarrinho();
-        $scope.deselectMarket();
-      }
-    })
+      $scope.$on('$ionicView.enter', function() {
+        if($scope.selectedMarket){
+          var alertPopup = $ionicPopup.alert({
+            title: 'Atenção',
+            template: '<center>Os produtos selecionados nesse mercado foram perdidos.</center>'
+          });
+
+          $scope.zerarCarrinho();
+          $scope.deselectMarket();
+        }
+      })
+      
+      $scope.$broadcast('scroll.refreshComplete');
+  }
+
+  $scope.doRefresh();
 })
 
 .controller('CartCtrl', function($scope, $ionicPopup){
@@ -205,7 +342,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('UserCtrl', function($scope, $ionicPopup, $http, $ionicLoading){
+.controller('UserCtrl', function($scope, $ionicPopup, $http, $ionicLoading, $ionicNavBarDelegate){
   $scope.user = {};
 
   $scope.show = function() {
@@ -241,7 +378,13 @@ angular.module('starter.controllers', [])
           template: '<center>Logado com sucesso.</center>'
         });
 
-        window.location.replace("#/app/supermercados");
+        $scope.setCodUser(data.dados.cod_cliente);
+
+        if(!($scope.veioDeCompra)){
+          window.location.replace("#/app/supermercados");
+        } else {
+          $ionicNavBarDelegate.back();
+        }
       }else{
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',
@@ -262,13 +405,47 @@ angular.module('starter.controllers', [])
   }
 
   $scope.register = function() {
-    UserService.RegisterUser($scope.user).success(function(data) {
-        console.log("Deu bom Cadastro");
-    }).error(function(data) {
+    $scope.show($ionicLoading);
+
+    var params = {
+      "nome":$scope.user.name,
+      "email":$scope.user.email,
+      "contato":$scope.user.phone,
+      "cpf":$scope.user.cpf,
+      "senha":$scope.user.password
+    };
+
+    var config = {
+        headers : {
+            'Content-Type': 'application/json;charset=utf-8;'
+        }
+    };
+
+    $http.post('http://10.61.37.93/user/cadastrar', params, config)
+    .success(function (data, status, headers, config) {
+      if(data.success){
         var alertPopup = $ionicPopup.alert({
-            title: 'Cadastro falhou!',
-            template: '<center>Verifique seus dados!</center>'
+          title: 'Sucesso',
+          template: '<center>Cadastrado com sucesso.</center>'
         });
+
+        window.location.replace("#/app/supermercados");
+      }else{
+        var alertPopup = $ionicPopup.alert({
+          title: 'Erro',
+          template: '<center>Falha no cadastro.</center>'
+        });
+      }
+    })
+    .error(function (data, status, header, config) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>Verifique sua conexão com a internet.</center>'
+      });
+    })
+    .finally(function($ionicLoading) {
+      // On both cases hide the loading
+      $scope.hide($ionicLoading);
     });
   }
 });

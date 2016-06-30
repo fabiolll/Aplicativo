@@ -8,6 +8,8 @@
   		</label>
 	</div>
 <!-- LISTA -->
+<ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()"></ion-refresher>
+
 <ion-list>
   <ion-item ng-repeat="item in markets">
   	<div class="row row-center" style="word-wrap:break-word;">

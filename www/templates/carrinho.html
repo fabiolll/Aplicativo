@@ -23,7 +23,7 @@
 
   <!-- Itens a comprar -->
   <ion-list show-delete="shouldShowDelete" can-swipe="listCanSwipe">
-    <ion-item ng-repeat="item in getItemsDoCarrinho()" item="item" class="item-remove-animate">
+    <ion-item ng-repeat="item in trataCarrinho()" item="item" class="item-remove-animate">
       <ion-delete-button class="ion-minus-circled" ng-click="removerItemDoCarrinho(item)"></ion-delete-button>
         <div class="row">
           <div class="col col-50">{{item.nome}}</div>
