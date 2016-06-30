@@ -27,9 +27,9 @@
       <ion-delete-button class="ion-minus-circled" ng-click="removerItemDoCarrinho(item)"></ion-delete-button>
         <div class="row">
           <div class="col col-50">{{item.nome}}</div>
-          <div class="col col-offset-10" style="text-align: left;">R$ {{item.preco}}</div>
-          <div class="col col-offset-10">x{{item.qnt}}</div>
-          <div class="col col-offset-10">R$ {{item.preco * item.qnt}}</div>
+          <div class="col" style="text-align: left;">R$ {{item.preco_produto}}</div>
+          <div class="col col-offset-20">x{{item.qnt}}</div>
+          <div class="col col-offset-10">R$ {{item.preco_produto * item.qnt}}</div>
         </div>
     </ion-item>
   </ion-list>

@@ -36,7 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       url: '/carrinho',
       views: {
         'menuContent': {
-          templateUrl: 'templates/carrinho.html'
+          templateUrl: 'templates/carrinho.html',
+          controller: 'CartCtrl'
         }
       }
     })
