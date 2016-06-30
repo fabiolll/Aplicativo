@@ -456,10 +456,8 @@ angular.module('starter.controllers', [])
 
           window.location.replace("#/app/supermercados");
         } else {
-          $ionicNavBarDelegate.back();
+          $ionicHistory.goBack(-2);
         }
-
-        window.location.replace("#/app/supermercados");
       }else{
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',

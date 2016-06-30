@@ -84,6 +84,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   .state('app.cadastro', {
         url: '/cadastro',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/cadastro.html',
@@ -94,6 +95,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
       .state('app.login', {
         url: '/login',
+        cache: false,
         views: {
           'menuContent': {
             templateUrl: 'templates/login.html',
