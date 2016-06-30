@@ -7,6 +7,9 @@
       		<input type="text" placeholder="Search">
     		</label>
   	</div>
+
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="refresha()"></ion-refresher>
+
     <ion-list>
       <ion-item ng-repeat="product in products">
         <div class="row" id="categoriasproduto">

@@ -195,15 +195,14 @@ angular.module('starter.controllers', [])
         template: '<center>Você será redirecionado ao mapa.</center>'
       }).then(function(res) {
         $ionicLoading.show({
-          template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>',
-          delay: 5
+          template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
         });
 
         launchnavigator.navigate(temporaria);
 
-        $this.addEventListener('resume', function() {
-          $scope.hide($ionicLoading);
-        }, false);
+        setTimeout(function(){
+          $scope.hide($ionicLoading)
+        }, 4000);
       });
     }
   }
@@ -222,24 +221,24 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  // $scope.products = [{"nome":"bla", "preco":"10"}, {"nome":"bla2", "preco":"15"},
-  // {"nome":"bla3", "preco":"20"}, {"nome":"bla4", "preco":"5"}];
+  $scope.refresha = function(){
+    $scope.show($ionicLoading);
 
-  $scope.show($ionicLoading);
+    var url = "http://10.61.37.93/produtos/" + $scope.selectedCategory.cod_categoria + "/" + $scope.selectedMarket.cod_unidade;
 
-  var url = "http://10.61.37.93/produtos/" + $scope.selectedCategory.cod_categoria + "/" + $scope.selectedMarket.cod_unidade;
-
-  $http.get(url)
-    .success(function(data){
-      $scope.products = data;
-    })
-    .error(function(data){
-      alert("Verifique sua conexão com a internet!");
-    })
-    .finally(function($ionicLoading) {
-      // On both cases hide the loading
-      $scope.hide($ionicLoading);
-    });
+    $http.get(url)
+      .success(function(data){
+        $scope.products = data;
+      })
+      .error(function(data){
+        alert("Verifique sua conexão com a internet!");
+      })
+      .finally(function($ionicLoading) {
+        // On both cases hide the loading
+        $scope.hide($ionicLoading);
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+  }
 
   $scope.addToCart = function(product){
     $scope.adicionarItemNoCarrinho(product);
@@ -248,6 +247,9 @@ angular.module('starter.controllers', [])
       template: '<center>' + product.nome + '</center>'
     });
   }
+
+  // Chama o refresha
+  $scope.refresha();
 })
 
 .controller('CategoriesCtrl', function($scope, $ionicLoading, $ionicPopup, $http) {
@@ -263,26 +265,32 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  $scope.show($ionicLoading);
+  $scope.doRefresha = function(){
+    $scope.show($ionicLoading);
 
-  $http.get("http://10.61.37.93/buscarCategorias")
-    .success(function(data){
-      $scope.categories = data;
-    })
-    .error(function(data){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Erro',
-        template: '<center>Verifique sua conexão com a internet.</center>'
+    $http.get("http://10.61.37.93/buscarCategorias")
+      .success(function(data){
+        $scope.categories = data;
+      })
+      .error(function(data){
+        var alertPopup = $ionicPopup.alert({
+          title: 'Erro',
+          template: '<center>Verifique sua conexão com a internet.</center>'
+        });
+      })
+      .finally(function($ionicLoading) {
+        // On both cases hide the loading
+        $scope.hide($ionicLoading);
+        $scope.$broadcast('scroll.refreshComplete');
       });
-    })
-    .finally(function($ionicLoading) {
-      // On both cases hide the loading
-      $scope.hide($ionicLoading);
-    });
+  }
 
-    $scope.setSelectedCategory = function(blabla){
-      $scope.setSelCat(blabla);
-    }
+  $scope.setSelectedCategory = function(blabla){
+    $scope.setSelCat(blabla);
+  }
+
+  // Refresha a tela
+  $scope.doRefresha();
 })
 
 .controller('MarketCtrl', function($scope, $http, $ionicLoading, $ionicPopup) {
@@ -327,7 +335,7 @@ angular.module('starter.controllers', [])
           $scope.deselectMarket();
         }
       })
-      
+
       $scope.$broadcast('scroll.refreshComplete');
   }
 
