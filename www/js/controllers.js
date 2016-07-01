@@ -321,7 +321,7 @@ angular.module('starter.controllers', [])
   };
 
   $scope.doRefresh = function(){
-    $scope.show($ionicLoading);
+    //$scope.show($ionicLoading);
 
     $http.get("http://10.61.37.93/supermercados")
       .success(function(data){
@@ -367,6 +367,86 @@ angular.module('starter.controllers', [])
 .controller('UserCtrl', function($scope, $ionicPopup, $http, $ionicLoading, $ionicNavBarDelegate, $ionicHistory){
   $scope.user = {};
 
+  $scope.validLogin = function(){
+    if($scope.user.email == null){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O Campo email deve ser uma valor válido.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.password == null || $scope.user.password.length < 5){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O campo senha deve ter pelo menos 5 caracteres.</center>'
+      });
+
+      return false;
+    }
+
+    return true;
+  }
+
+  $scope.validCad = function(){
+    if($scope.user.name == null || $scope.user.name.length < 5){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O nome deve conter pelo menos 5 caracteres.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.password == null || $scope.user.password < 5){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O campo senha deve ter pelo menos 5 caracteres.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.passwordConf == null || $scope.user.password != $scope.user.passwordConf){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>A confirmação de senha é diferente da senha.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.phone == null || $scope.user.phone.length == 0){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O campo telefone é obrigatório.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.cpf == null || $scope.user.cpf.length == 0){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O campo CPF é obrigatório.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.user.email == null){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        template: '<center>O Campo email deve ser uma valor válido.</center>'
+      });
+
+      return false;
+    }
+
+    return true;
+  };
+
   $scope.show = function() {
     $ionicLoading.show({
       template: '<p>Carregando...</p><ion-spinner></ion-spinner>'
@@ -382,104 +462,108 @@ angular.module('starter.controllers', [])
   }
 
   $scope.login = function() {
-    $scope.show($ionicLoading);
+    if($scope.validLogin()){
+      $scope.show($ionicLoading);
 
-    var params = {"email":$scope.user.email,"senha":$scope.user.password};
+      var params = {"email":$scope.user.email,"senha":$scope.user.password};
 
-    var config = {
-        headers : {
-            'Content-Type': 'application/json;charset=utf-8;'
-        }
-    };
+      var config = {
+          headers : {
+              'Content-Type': 'application/json;charset=utf-8;'
+          }
+      };
 
-    $http.post('http://10.61.37.93/user/login', params, config)
-    .success(function (data, status, headers, config) {
-      if(data.success){
-        var alertPopup = $ionicPopup.alert({
-          title: 'Sucesso',
-          template: '<center>Logado com sucesso.</center>'
-        });
-
-        $scope.setCodUser(data.dados.cod_cliente);
-
-        if(!($scope.veioDeCompra)){
-          $ionicHistory.nextViewOptions({
-            disableBack: true
+      $http.post('http://10.61.37.93/user/login', params, config)
+      .success(function (data, status, headers, config) {
+        if(data.success){
+          var alertPopup = $ionicPopup.alert({
+            title: 'Sucesso',
+            template: '<center>Logado com sucesso.</center>'
           });
 
-          window.location.replace("#/app/supermercados");
-        } else {
-          $ionicNavBarDelegate.back();
+          $scope.setCodUser(data.dados.cod_cliente);
+
+          if(!($scope.veioDeCompra)){
+            $ionicHistory.nextViewOptions({
+              disableBack: true
+            });
+
+            window.location.replace("#/app/supermercados");
+          } else {
+            $ionicNavBarDelegate.back();
+          }
+        }else{
+          var alertPopup = $ionicPopup.alert({
+            title: 'Erro',
+            template: '<center>Verifique Suas credenciais.</center>'
+          });
         }
-      }else{
+      })
+      .error(function (data, status, header, config) {
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',
-          template: '<center>Verifique Suas credenciais.</center>'
+          template: '<center>Verifique sua conexão com a internet.</center>'
         });
-      }
-    })
-    .error(function (data, status, header, config) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Erro',
-        template: '<center>Verifique sua conexão com a internet.</center>'
+      })
+      .finally(function($ionicLoading) {
+        // On both cases hide the loading
+        $scope.hide($ionicLoading);
       });
-    })
-    .finally(function($ionicLoading) {
-      // On both cases hide the loading
-      $scope.hide($ionicLoading);
-    });
+    }
   }
 
   $scope.register = function() {
-    $scope.show($ionicLoading);
+    if($scope.validCad()){
+      $scope.show($ionicLoading);
 
-    var params = {
-      "nome":$scope.user.name,
-      "email":$scope.user.email,
-      "contato":$scope.user.phone,
-      "cpf":$scope.user.cpf,
-      "senha":$scope.user.password
-    };
+      var params = {
+        "nome":$scope.user.name,
+        "email":$scope.user.email,
+        "contato":$scope.user.phone,
+        "cpf":$scope.user.cpf,
+        "senha":$scope.user.password
+      };
 
-    var config = {
-        headers : {
-            'Content-Type': 'application/json;charset=utf-8;'
-        }
-    };
+      var config = {
+          headers : {
+              'Content-Type': 'application/json;charset=utf-8;'
+          }
+      };
 
-    $http.post('http://10.61.37.93/user/cadastrar', params, config)
-    .success(function (data, status, headers, config) {
-      if(data.success){
-        var alertPopup = $ionicPopup.alert({
-          title: 'Sucesso',
-          template: '<center>Cadastrado com sucesso.</center>'
-        });
-
-        if(!($scope.veioDeCompra)){
-          $ionicHistory.nextViewOptions({
-            disableBack: true
+      $http.post('http://10.61.37.93/user/cadastrar', params, config)
+      .success(function (data, status, headers, config) {
+        if(data.success){
+          var alertPopup = $ionicPopup.alert({
+            title: 'Sucesso',
+            template: '<center>Cadastrado com sucesso.</center>'
           });
 
-          window.location.replace("#/app/supermercados");
-        } else {
-          $ionicHistory.goBack(-2);
+          if(!($scope.veioDeCompra)){
+            $ionicHistory.nextViewOptions({
+              disableBack: true
+            });
+
+            window.location.replace("#/app/supermercados");
+          } else {
+            $ionicHistory.goBack(-2);
+          }
+        }else{
+          var alertPopup = $ionicPopup.alert({
+            title: 'Erro',
+            template: '<center>Falha no cadastro.</center>'
+          });
         }
-      }else{
+      })
+      .error(function (data, status, header, config) {
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',
-          template: '<center>Falha no cadastro.</center>'
+          template: '<center>Verifique sua conexão com a internet.</center>'
         });
-      }
-    })
-    .error(function (data, status, header, config) {
-      var alertPopup = $ionicPopup.alert({
-        title: 'Erro',
-        template: '<center>Verifique sua conexão com a internet.</center>'
+      })
+      .finally(function($ionicLoading) {
+        // On both cases hide the loading
+        $scope.hide($ionicLoading);
       });
-    })
-    .finally(function($ionicLoading) {
-      // On both cases hide the loading
-      $scope.hide($ionicLoading);
-    });
+    }
   }
 });

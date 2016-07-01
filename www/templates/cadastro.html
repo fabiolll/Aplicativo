@@ -5,32 +5,33 @@
     <ion-view view-title="Cadastro">
       <ion-content>
         <!--<form ng-submit="createUser(user)">-->
-          <div class="list">
+          <div class="list" name="myList">
             <label class="item item-input item-stacked-label">
               <span class="input-label">Nome Completo</span>
-              <input type="text" placeholder="João da Silva" ng-model="user.name">
+              <input name="name" type="text" placeholder="João da Silva" ng-model="user.name" pattern=".{5,}" required>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Email</span>
-              <input type="text" placeholder="john@suhr.com" ng-model="user.email">
+              <input name="email" type="email" placeholder="john@suhr.com" ng-model="user.email" required>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Telefone</span>
-              <input type="text" placeholder="+55(61)98205-6613" ng-model="user.phone">
+              <input name="phone" type="tel" ui-mask="(99)99999-9999" ui-mask-placeholder placeholder="(99)99999-9999" ng-model="user.phone" required>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">CPF</span>
-              <input type="text" placeholder="058.299.041-60" ng-model="user.cpf">
+              <input name="cpf" type="tel" ui-mask="999.999.999-99" ui-mask-placeholder placeholder="058.299.041-60" ng-model="user.cpf" required>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Senha</span>
-              <input type="password" placeholder="********" ng-model="user.password">
+              <input name="password" type="password" placeholder="********" ng-model="user.password" pattern=".{5,}" required>
             </label>
             <label class="item item-input item-stacked-label">
               <span class="input-label">Confirmação de Senha</span>
-              <input type="password" placeholder="********" ng-model="user.passwordConf">
+              <input name="passwordConf" type="password" placeholder="********" ng-model="user.passwordConf" pattern=".{5,}" required>
             </label>
           </div>
+
           <div class="padding">
             <button ng-click="register()" class="button button-block button-positive padding">
               Cadastrar
