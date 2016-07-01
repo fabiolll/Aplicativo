@@ -153,12 +153,6 @@ angular.module('starter.controllers', [])
 
     params.produtos = products;
 
-    var alertPopup = $ionicPopup.alert({
-      title: 'Erro',
-      // template: '<center>Verifique sua conexão com a internet.</center>'
-      template: '<center>'+ JSON.stringify(params) +'</center>'
-    });
-
     var config = {
         headers : {
             'Content-Type': 'application/json;charset=utf-8;'
@@ -168,7 +162,7 @@ angular.module('starter.controllers', [])
     $http.post('http://10.61.37.93/compra', params, config)
     .success(function (data, status, headers, config) {
       if(data.success){
-        // $scope.hide($ionicLoading);
+        $scope.hide($ionicLoading);
 
         $ionicHistory.nextViewOptions({
           disableBack: true
@@ -183,7 +177,7 @@ angular.module('starter.controllers', [])
         var alertPopup = $ionicPopup.alert({
           title: 'Compra Efetuada!',
           // template: '<center>Você será redirecionado ao mapa.</center>'
-          template: '<center>'+ data +'</center>'
+          template: '<center>Você será redirecionado ao mapa.</center>'
         }).then(function(res) {
           $ionicLoading.show({
             template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
@@ -196,16 +190,16 @@ angular.module('starter.controllers', [])
           }, 4000);
         });
       }else{
-        // $scope.hide($ionicLoading);
+        $scope.hide($ionicLoading);
 
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',
-          template: '<center>Falha na realizaçã o da compra.</center>'
+          template: '<center>Falha na realização da compra.</center>'
         });
       }
     })
     .error(function (data, status, header, config) {
-      // $scope.hide($ionicLoading);
+      $scope.hide($ionicLoading);
 
       var alertPopup = $ionicPopup.alert({
         title: 'Erro',
@@ -566,7 +560,7 @@ angular.module('starter.controllers', [])
         }else{
           var alertPopup = $ionicPopup.alert({
             title: 'Erro',
-            template: '<center>Verifique Suas credenciais.</center>'
+            template: '<center>Verifique suas credenciais.</center>'
           });
         }
       })
@@ -608,6 +602,8 @@ angular.module('starter.controllers', [])
             title: 'Sucesso',
             template: '<center>Cadastrado com sucesso.</center>'
           });
+
+          $scope.setCodUser(data.cod_cliente);
 
           if(!($scope.veioDeCompra)){
             $ionicHistory.nextViewOptions({
