@@ -12,27 +12,27 @@
     <div class="list">
       <label class="item item-input item-stacked-label">
         <span class="input-label">Número do Cartão de Crédito</span>
-        <input type="text" placeholder="1111 1111 1111 1111" ng-model="user.name">
+        <input type="text" ui-mask="9999 9999 9999 9999" ui-mask-placeholder placeholder="1111 1111 1111 1111" ng-model="cartao_credito.number" required>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Nome (Como está no cartão)</span>
-        <input type="text" placeholder="João J P G Silva" ng-model="user.email">
+        <input type="text" placeholder="João J P G Silva" pattern=".{5,}" ng-model="cartao_credito.name" required>
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Código de Segurança</span>
-        <input type="text" placeholder="111" ng-model="user.phone">
+        <input type="text" ui-mask="999" ui-mask-placeholder placeholder="999" ng-model="cartao_credito.cod_seg" required>
       </label>
       <label class="item item-input item-stacked-label">
           <div class="row">
             <div class="col">
               <span class="input-label">MÊS: </span>
-              <select>
+              <select ng-model="cartao_credito.month" required>
                 <option ng-repeat="item in getMeses()">{{item}}</option>
               </select>
             </div>
             <div class="col">
               <span class="input-label">ANO: </span>
-              <select>
+              <select ng-model="cartao_credito.year" required>
                 <option ng-repeat="item in getAnos()">{{item}}</option>
               </select>
             </div>
@@ -40,63 +40,9 @@
     </label>
     </div>
     <div class="padding">
-      <button ng-click="confirmarCompra()" class="button button-block button-energized padding">
+      <button ng-click="prepareCompra()" class="button button-block button-energized padding">
         Confirmar
       </button>
     </div>
   </ion-content>
 </ion-view>
-
-<!-- <ion-view view-title="Comprar">
-      <ion-content>
-      <div class="button button-full button-energized">
-          <h4 class="title">Pagamento</h4> <h3>Cartão de Crédito</h3>
-      </div>
-
-        <div class="list" style="position:relative;">
-          <label class="item item-input item-stacked-label" >
-             <span class="input-label">Valor total da Compra: </span>
-             <span class="input-label" style="font-size: 20px;">R$ {{totalPreco()}}</span>
-
-          </label>
-
-          <label class="item item-input item-stacked-label" >
-              <span class="input-label">Número do cartão de crédito</span>
-              <input type="text" placeholder="  1111 1111 1111 1111" ng-model="user.name">
-            </label>
-            <label class="item item-input item-stacked-label">
-              <span class="input-label">Nome como está no cartão</span>
-              <input type="text" placeholder="  Jonh J Silva" ng-model="user.email">
-          </label>
-
-        <label class="item item-input item-stacked-label">
-            <div class="row">
-              <div class="col">
-              <span class="input-label">MÊS: </span>
-                <select>
-                  <option ng-repeat="item in getMeses()">{{item}}</option>
-                </select>
-              </div>
-              <div class="col">
-                <span class="input-label">ANO: </span>
-                <select>
-                  <option ng-repeat="item in getAnos()">{{item}}</option>
-                </select>
-              </div>
-            </div>
-      </label>
-
-      <label class="item item-input item-stacked-label">
-          <span class="input-label">Codigo de segurança </span>
-          <input type="text" placeholder="  111" ng-model="user.name">
-      </label>
-
-
-          </div>
-          <div class="padding">
-            <button ng-click="confirmarCompra()" class="button button-block button-energized">
-              Confirmar Compra
-            </button>
-          </div>
-      </ion-content>
-    </ion-view> -->

@@ -21,6 +21,7 @@ angular.module('starter.controllers', [])
 
   $scope.comprarItensDoCarrinho = function(){
     //sei la.. via pra pgina de compras... eu acho
+    $scope.boraComprar = true;
     window.location.replace("#/app/comprar");
   }
 
@@ -127,103 +128,93 @@ angular.module('starter.controllers', [])
   };
 
   $scope.confirmarCompra = function(){
-    if($scope.cod_cliente == null){
-      var alertPopup = $ionicPopup.alert({
-        title: 'Atenção',
-        template: '<center>Você precisa estar logado para comprar!</center>'
-      });
+    $scope.show($ionicLoading);
 
-      $scope.veioDeCompra = true;
+    var params = {
+      "cod_cliente":$scope.cod_cliente,
+      "cod_unidade":$scope.selectedMarket.cod_unidade,
+      "valor_total":$scope.totalPreco(),
+      "produtos":{
 
-      window.location.replace("#/app/login");
-    } else {
-      //$scope.show($ionicLoading);
-
-      var params = {
-        "cod_cliente":$scope.cod_cliente,
-        "cod_unidade":$scope.selectedMarket.cod_unidade,
-        "valor_total":$scope.totalPreco(),
-        "produtos":{
-
-        }
-      };
-
-      var products = [];
-
-      var items = $scope.trataCarrinho();
-
-      for(i = 0; i < items.length; i++){
-        products.push({"cod_estoque_produto":items[i].cod_estoque_produto,"quantidade":items[i].qnt});
       }
+    };
 
-      params.produtos = products;
+    var products = [];
 
-      var alertPopup = $ionicPopup.alert({
-        title: 'Erro',
-        // template: '<center>Verifique sua conexão com a internet.</center>'
-        template: '<center>'+ JSON.stringify(params) +'</center>'
-      });
+    var items = $scope.trataCarrinho();
 
-      var config = {
-          headers : {
-              'Content-Type': 'application/json;charset=utf-8;'
-          }
-      };
+    for(i = 0; i < items.length; i++){
+      products.push({"cod_estoque_produto":items[i].cod_estoque_produto,"quantidade":items[i].qnt});
+    }
 
-      $http.post('http://10.61.37.93/compra', params, config)
-      .success(function (data, status, headers, config) {
-        if(data.success){
-          // $scope.hide($ionicLoading);
+    params.produtos = products;
 
-          $ionicHistory.nextViewOptions({
-            disableBack: true
-          });
+    var alertPopup = $ionicPopup.alert({
+      title: 'Erro',
+      // template: '<center>Verifique sua conexão com a internet.</center>'
+      template: '<center>'+ JSON.stringify(params) +'</center>'
+    });
 
-          var temporaria = $scope.selectedMarket.endereco;
-
-          $scope.deselectMarket();
-
-          window.location.replace("#/app/supermercados");
-
-          var alertPopup = $ionicPopup.alert({
-            title: 'Compra Efetuada!',
-            // template: '<center>Você será redirecionado ao mapa.</center>'
-            template: '<center>'+ data +'</center>'
-          }).then(function(res) {
-            $ionicLoading.show({
-              template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
-            });
-
-            launchnavigator.navigate(temporaria);
-
-            setTimeout(function(){
-              $scope.hide($ionicLoading)
-            }, 4000);
-          });
-        }else{
-          // $scope.hide($ionicLoading);
-
-          var alertPopup = $ionicPopup.alert({
-            title: 'Erro',
-            template: '<center>Falha na realizaçã o da compra.</center>'
-          });
+    var config = {
+        headers : {
+            'Content-Type': 'application/json;charset=utf-8;'
         }
-      })
-      .error(function (data, status, header, config) {
+    };
+
+    $http.post('http://10.61.37.93/compra', params, config)
+    .success(function (data, status, headers, config) {
+      if(data.success){
+        // $scope.hide($ionicLoading);
+
+        $ionicHistory.nextViewOptions({
+          disableBack: true
+        });
+
+        var temporaria = $scope.selectedMarket.endereco;
+
+        $scope.deselectMarket();
+
+        window.location.replace("#/app/supermercados");
+
+        var alertPopup = $ionicPopup.alert({
+          title: 'Compra Efetuada!',
+          // template: '<center>Você será redirecionado ao mapa.</center>'
+          template: '<center>'+ data +'</center>'
+        }).then(function(res) {
+          $ionicLoading.show({
+            template: '<p>Redirecionando...</p><ion-spinner></ion-spinner>'
+          });
+
+          launchnavigator.navigate(temporaria);
+
+          setTimeout(function(){
+            $scope.hide($ionicLoading)
+          }, 4000);
+        });
+      }else{
         // $scope.hide($ionicLoading);
 
         var alertPopup = $ionicPopup.alert({
           title: 'Erro',
-          // template: '<center>Verifique sua conexão com a internet.</center>'
-          template: '<center>'+ data +'</center>'
+          template: '<center>Falha na realizaçã o da compra.</center>'
         });
+      }
+    })
+    .error(function (data, status, header, config) {
+      // $scope.hide($ionicLoading);
+
+      var alertPopup = $ionicPopup.alert({
+        title: 'Erro',
+        // template: '<center>Verifique sua conexão com a internet.</center>'
+        template: '<center>'+ data +'</center>'
       });
-    }
+    });
   }
 })
 
 .controller('ProductCtrl', function($scope, $ionicLoading, $ionicPopup, $state, $http) {
   $scope.products = [];
+  $scope.cartao_credito = {};
 
   $scope.show = function() {
     $ionicLoading.show({
@@ -262,8 +253,82 @@ angular.module('starter.controllers', [])
     });
   }
 
-  // Chama o refresha
-  $scope.refresha();
+  $scope.prepareCompra = function(){
+    if($scope.cartao_credito.number == null || $scope.cartao_credito.number.length < 16){
+      var alertPopup = $ionicPopup.alert({
+        title: "Erro",
+        template: '<center>Número do cartão deve ter 16 números.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.cartao_credito.name == null || $scope.cartao_credito.name.length < 5){
+      var alertPopup = $ionicPopup.alert({
+        title: "Erro",
+        template: '<center>O Campo nome deve possuir pelo menos 5 caracteres.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.cartao_credito.month == null){
+      var alertPopup = $ionicPopup.alert({
+        title: "Erro",
+        template: '<center>O Mês de vencimento deve ser selecionado.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.cartao_credito.year == null){
+      var alertPopup = $ionicPopup.alert({
+        title: "Erro",
+        template: '<center>O Ano de vencimento deve selecionado.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.cartao_credito.cod_seg == null || $scope.cartao_credito.cod_seg.length < 3){
+      var alertPopup = $ionicPopup.alert({
+        title: "Erro",
+        template: '<center>O Código de segurança deve ter 3 caracteres.</center>'
+      });
+
+      return false;
+    }
+
+    if($scope.cod_cliente == null){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Atenção',
+        template: '<center>Você precisa estar logado para comprar!</center>'
+      });
+
+      window.location.replace("#/app/login");
+
+      return false;
+    }
+
+    $scope.confirmarCompra();
+  }
+
+  // ISSO EH EXECUTADO QUANDO A TELA EH CARREGADA
+  if($scope.boraComprar == null){
+    // Chama o refresha
+    $scope.refresha();
+  }
+
+  if($scope.cod_cliente == null){
+    var alertPopup = $ionicPopup.alert({
+      title: 'Atenção',
+      template: '<center>Você precisa estar logado para comprar!</center>'
+    });
+
+    $scope.veioDeCompra = true;
+
+    window.location.replace("#/app/login");
+  }
 })
 
 .controller('CategoriesCtrl', function($scope, $ionicLoading, $ionicPopup, $http) {
@@ -411,7 +476,7 @@ angular.module('starter.controllers', [])
     if($scope.user.passwordConf == null || $scope.user.password != $scope.user.passwordConf){
       var alertPopup = $ionicPopup.alert({
         title: 'Erro',
-        template: '<center>A confirmação de senha é diferente da senha.</center>'
+        template: '<center>A ção de senha é diferente da senha.</center>'
       });
 
       return false;
