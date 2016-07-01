@@ -77,6 +77,10 @@ angular.module('starter.controllers', [])
     $scope.cod_cliente = cod;
   }
 
+  $scope.setVeioDeCompra = function(){
+    $scope.veioDeCompra = true;
+  }
+
 //--------------------------------------------------------------------------
 
   $scope.setSelectedMarket = function(market){
@@ -305,6 +309,8 @@ angular.module('starter.controllers', [])
         template: '<center>Você precisa estar logado para comprar!</center>'
       });
 
+      $scope.setVeioDeCompra();
+
       window.location.replace("#/app/login");
 
       return false;
@@ -319,13 +325,13 @@ angular.module('starter.controllers', [])
     $scope.refresha();
   }
 
-  if($scope.cod_cliente == null){
+  if($scope.cod_cliente == null && $scope.boraComprar == true){
     var alertPopup = $ionicPopup.alert({
       title: 'Atenção',
       template: '<center>Você precisa estar logado para comprar!</center>'
     });
 
-    $scope.veioDeCompra = true;
+    $scope.setVeioDeCompra();
 
     window.location.replace("#/app/login");
   }
